@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#eaf5ff">
+    <meta name="description" content="Find your next bright escape with Azure.">
+    <title>Azure - Find your blue</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            color-scheme: light;
+            --ink: #16345a;
+            --muted: #617794;
+            --blue: #2876d8;
+            --glass: rgba(255, 255, 255, 0.42);
+            --glass-border: rgba(255, 255, 255, 0.72);
+            --glass-shadow: 0 24px 70px rgba(34, 72, 118, 0.14);
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(ellipse at 9% 15%, rgba(117, 194, 255, 0.52), transparent 34rem),
+                radial-gradient(ellipse at 86% 78%, rgba(120, 224, 224, 0.38), transparent 31rem),
+                linear-gradient(135deg, #eaf5ff 0%, #f6f9ff 48%, #e5f5f7 100%);
+            background-attachment: fixed;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before,
+        body::after {
+            position: fixed;
+            z-index: -1;
+            width: 19rem;
+            height: 19rem;
+            border: 1px solid rgba(255, 255, 255, 0.48);
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.18);
+            box-shadow: inset 0 0 60px rgba(255, 255, 255, 0.28), 0 20px 70px rgba(77, 143, 191, 0.08);
+            content: "";
+            filter: blur(1px);
+            pointer-events: none;
+        }
+
+        body::before {
+            top: 14%;
+            right: -8rem;
+        }
+
+        body::after {
+            bottom: -11rem;
+            left: -8rem;
+            width: 25rem;
+            height: 25rem;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        a:focus-visible {
+            outline: 3px solid rgba(40, 118, 216, 0.75);
+            outline-offset: 4px;
+        }
+
+        .container {
+            width: min(90%, 1280px);
+            margin: 0 auto;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 24px;
+            gap: 24px;
+            padding: 10px 12px 10px 18px;
+            border: 1px solid rgba(255, 255, 255, 0.78);
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.48);
+            box-shadow: 0 14px 38px rgba(48, 93, 145, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(24px) saturate(155%);
+            -webkit-backdrop-filter: blur(24px) saturate(155%);
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+            color: #123b70;
+            font-size: 23px;
+            font-weight: bold;
+            letter-spacing: -1.2px;
+        }
+
+        .logo-mark {
+            display: grid;
+            width: 34px;
+            height: 34px;
+            place-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.76);
+            border-radius: 12px;
+            background: linear-gradient(145deg, rgba(73, 158, 244, 0.95), rgba(35, 108, 211, 0.82));
+            box-shadow: 0 5px 12px rgba(23, 105, 232, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .menu-toggle {
+            display: none;
+            width: 42px;
+            height: 42px;
+            flex: 0 0 42px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.78);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.64);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            width: 17px;
+            height: 2px;
+            border-radius: 2px;
+            background: #31557f;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .nav-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 42px;
+            padding: 0 15px;
+            border: 1px solid transparent;
+            border-radius: 14px;
+            color: #45617f;
+            font-size: 14px;
+            font-weight: 600;
+            transition: color 0.2s, background 0.2s, border-color 0.2s, transform 0.2s;
+        }
+
+        .nav-links a:hover {
+            border-color: rgba(255, 255, 255, 0.72);
+            background: rgba(255, 255, 255, 0.58);
+            color: #1769e8;
+        }
+
+        .nav-links a[aria-current="page"] {
+            border-color: rgba(255, 255, 255, 0.78);
+            background: rgba(255, 255, 255, 0.68);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 3px 9px rgba(48, 93, 145, 0.06);
+            color: #1769e8;
+        }
+
+        .nav-links .sign-in {
+            min-height: 42px;
+            margin-left: 8px;
+            padding: 0 19px;
+            border: 1px solid rgba(255, 255, 255, 0.68);
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(61, 145, 241, 0.9), rgba(35, 108, 211, 0.76));
+            box-shadow: 0 6px 15px rgba(23, 105, 232, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            color: white;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+        }
+
+        .nav-links .sign-in:hover {
+            transform: translateY(-1px);
+            background: linear-gradient(135deg, rgba(49, 132, 231, 0.98), rgba(28, 94, 192, 0.9));
+            box-shadow: 0 8px 18px rgba(23, 105, 232, 0.25);
+            color: white;
+        }
+
+        .nav-links .sign-in:focus-visible,
+        .menu-toggle:focus-visible {
+            outline: 3px solid rgba(40, 118, 216, 0.75);
+            outline-offset: 3px;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: clamp(38px, 6vw, 82px);
+            min-height: 710px;
+            padding: 76px 0;
+        }
+
+        .hero-image {
+            position: relative;
+            height: min(67vh, 590px);
+            min-height: 430px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.88);
+            border-radius: 30px 110px 30px 30px;
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: var(--glass-shadow), 0 0 0 9px rgba(255, 255, 255, 0.2);
+        }
+
+        .hero-image img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: saturate(0.92);
+        }
+
+        .eyebrow {
+            margin: 0 0 20px;
+            color: #3975bc;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .hero-content {
+            padding: 0;
+        }
+
+        h1 {
+            margin: 0;
+            color: #15345b;
+            font-size: clamp(52px, 6vw, 78px);
+            letter-spacing: -4px;
+            line-height: 0.99;
+        }
+
+        h1 span {
+            display: block;
+            margin-top: 12px;
+            color: #2778eb;
+        }
+
+        .description {
+            max-width: 430px;
+            margin: 24px 0 0;
+            color: var(--muted);
+            font-size: 18px;
+            line-height: 1.7;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 14px;
+            margin-top: 30px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 16px 22px;
+            border: 1px solid rgba(255, 255, 255, 0.78);
+            border-radius: 13px;
+            font-size: 15px;
+            font-weight: bold;
+            transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+        }
+
+        .primary-button {
+            background: linear-gradient(135deg, rgba(52, 137, 235, 0.94), rgba(35, 108, 211, 0.84));
+            box-shadow: 0 8px 18px rgba(23, 105, 232, 0.2);
+            color: white;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+
+        .primary-button:hover {
+            background: rgba(23, 105, 232, 0.95);
+        }
+
+        .secondary-button {
+            background: rgba(255, 255, 255, 0.48);
+            box-shadow: 0 6px 18px rgba(48, 93, 145, 0.1);
+            color: #31557f;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+
+        .secondary-button:hover {
+            background: rgba(255, 255, 255, 0.75);
+        }
+
+        @media (max-width: 900px) {
+            .hero {
+                gap: 38px;
+            }
+
+        }
+
+        @media (max-width: 700px) {
+            .container {
+                width: min(92%, 540px);
+            }
+
+            .navbar {
+                position: relative;
+                z-index: 2;
+                margin-top: 16px;
+                gap: 8px;
+                padding: 8px 9px 8px 12px;
+            }
+
+            .menu-toggle {
+                display: flex;
+                margin-left: auto;
+            }
+
+            .navbar.menu-open .menu-toggle span:first-child {
+                transform: translateY(3.5px) rotate(45deg);
+            }
+
+            .navbar.menu-open .menu-toggle span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .navbar.menu-open .menu-toggle span:last-child {
+                transform: translateY(-3.5px) rotate(-45deg);
+            }
+
+            body.menu-open {
+                overflow: hidden;
+            }
+
+            .navbar.menu-open {
+                position: fixed;
+                inset: 0;
+                z-index: 10;
+                width: 100%;
+                height: 100vh;
+                height: 100dvh;
+                margin: 0;
+                padding: 20px clamp(18px, 6vw, 48px);
+                align-items: flex-start;
+                border: 0;
+                border-radius: 0;
+                background: rgba(235, 246, 255, 0.9);
+                box-shadow: none;
+                backdrop-filter: blur(30px) saturate(155%);
+                -webkit-backdrop-filter: blur(30px) saturate(155%);
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                display: none;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 14px;
+                width: min(100%, 620px);
+                padding: 24px;
+                transform: translate(-50%, -50%);
+            }
+
+            .navbar.menu-open .nav-links {
+                display: flex;
+            }
+
+            .nav-links li,
+            .nav-links a {
+                width: 100%;
+            }
+
+            .nav-links a {
+                min-height: 68px;
+                justify-content: center;
+                padding: 10px 24px;
+                font-size: clamp(30px, 8vw, 48px);
+                letter-spacing: -1px;
+                border-color: rgba(255, 255, 255, 0.72);
+                background: rgba(255, 255, 255, 0.3);
+                box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+            }
+
+            .nav-links a[aria-current="page"] {
+                border-color: rgba(255, 255, 255, 0.9);
+                background: rgba(255, 255, 255, 0.72);
+                box-shadow: 0 8px 24px rgba(48, 93, 145, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            }
+
+            .logo {
+                gap: 7px;
+                font-size: 20px;
+            }
+
+            .logo-mark {
+                width: 30px;
+                height: 30px;
+                border-radius: 10px;
+                font-size: 16px;
+            }
+
+            .nav-links .sign-in {
+                justify-content: center;
+                min-height: 68px;
+                margin: 4px 0 0;
+                padding: 0 30px;
+                font-size: clamp(20px, 5vw, 26px);
+                letter-spacing: 0;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 32px;
+                min-height: 0;
+                padding: 42px 0 56px;
+            }
+
+            .hero-image {
+                order: 1;
+                height: min(78vw, 430px);
+                min-height: 300px;
+                border-radius: 24px 80px 24px 24px;
+            }
+
+            .hero-content {
+                order: 2;
+            }
+
+            h1 {
+                font-size: clamp(54px, 12vw, 72px);
+                letter-spacing: -3px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .navbar {
+                gap: 4px;
+                padding-right: 6px;
+                padding-left: 9px;
+            }
+
+            .logo {
+                gap: 5px;
+                font-size: 18px;
+            }
+
+            .logo-mark {
+                width: 27px;
+                height: 27px;
+                font-size: 15px;
+            }
+
+            .buttons {
+                flex-wrap: wrap;
+            }
+
+            .button {
+                padding: 14px 17px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav class="navbar" aria-label="Main navigation">
+                <a class="logo" href="#home" aria-label="Azure home">
+                    <span class="logo-mark" aria-hidden="true">a</span>
+                    <span>azure</span>
+                </a>
+                <button class="menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-links">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-links" id="nav-links">
+                    <li><a href="#home" aria-current="page">Home</a></li>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Gallery</a></li>
+                    <li><a class="sign-in" href="#">Sign in</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main id="home">
+            <section class="hero" aria-labelledby="hero-title">
+                <div class="hero-image" id="gallery">
+                    <img
+                        src="https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&amp;fit=crop&amp;w=1400&amp;q=85"
+                        alt="White Mediterranean buildings overlooking a brilliant blue sea">
+                </div>
+                <div class="hero-content" id="features">
+                    <p class="eyebrow">Find your blue</p>
+                    <h1 id="hero-title">A little more <span>somewhere.</span></h1>
+                    <p class="description">
+                        Follow the light, leave the everyday behind, and discover places
+                        that make you feel wonderfully far away.
+                    </p>
+                    <div class="buttons" id="get-started">
+                        <a class="button primary-button" href="#">Explore escapes</a>
+                        <a class="button secondary-button" href="#">Our story</a>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script>
+        const navbar = document.querySelector(".navbar");
+        const menuToggle = document.querySelector(".menu-toggle");
+        const navLinks = document.querySelector(".nav-links");
+
+        function setMenuOpen(isOpen) {
+            navbar.classList.toggle("menu-open", isOpen);
+            document.body.classList.toggle("menu-open", isOpen);
+            menuToggle.setAttribute("aria-expanded", String(isOpen));
+            menuToggle.setAttribute("aria-label", isOpen ? "Close navigation menu" : "Open navigation menu");
+        }
+
+        menuToggle.addEventListener("click", () => {
+            setMenuOpen(menuToggle.getAttribute("aria-expanded") !== "true");
+        });
+
+        navLinks.addEventListener("click", (event) => {
+            if (event.target instanceof Element && event.target.closest("a")) {
+                setMenuOpen(false);
+            }
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && menuToggle.getAttribute("aria-expanded") === "true") {
+                setMenuOpen(false);
+                menuToggle.focus();
+            }
+        });
+    </script>
+</body>
+</html>
